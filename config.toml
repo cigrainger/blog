@@ -3,9 +3,17 @@ theme = "terminimal"
 compile_sass = true
 build_search_index = false
 generate_feed = true
+minify_html = true
+title = "Christopher Grainger's Blog"
+description = "Technical blogging. Mostly Elixir and data science. Also Rust and Nix."
 
 [markdown]
 highlight_code = true
+highlight_theme = "dracula"
+external_links_target_blank = true
+external_links_no_follow = true
+external_links_no_referrer = true
+render_emoji = true
 
 [extra]
 accent_color = "pink"
