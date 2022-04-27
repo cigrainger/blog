@@ -1,12 +1,12 @@
 +++
 title = "Introducing Explorer"
-date = 2022-04-27
+date = 2022-04-28
 
 [taxonomies]
 tags = ["elixir", "rust", "explorer"]
 +++
 
-Last night I published [`v0.1.0`](https://hexdocs.pm/explorer/Explorer.html) of [`Explorer`](https://github.com/elixir-nx/explorer), a library I've been working on to bring dataframes to Elixir. It's been available through GitHub for a while, but the Hex release is more than just a milestone: by publishing the package on Hex, we've enabled [Rustler Precompiled](https://dashbit.co/blog/rustler-precompiled) to do its thing. That means that now you can use Explorer without a Rust toolchain installed and without waiting for it to compile. Before you'd wait for up to five minutes to try it out, and now it's basically instant.
+Tuesday night, I published [`v0.1.0`](https://hexdocs.pm/explorer/Explorer.html) of [`Explorer`](https://github.com/elixir-nx/explorer), a library I've been working on to bring dataframes to Elixir. It's been available through GitHub for a while, but the Hex release is more than just a milestone: by publishing the package on Hex, we've enabled [Rustler Precompiled](https://dashbit.co/blog/rustler-precompiled) to do its thing. That means that now you can use Explorer without a Rust toolchain installed and without waiting for it to compile. Before you'd wait for up to five minutes to try it out, and now it's basically instant.
 
 In this post, I'd like to lay out some of what led to Explorer and the philosophy behind it. I'll follow up in coming weeks with more 'how-to' style posts, but I think the unique nature of Explorer merits some discussion first.
 
