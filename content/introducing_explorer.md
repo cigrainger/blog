@@ -12,11 +12,13 @@ In this post, I'd like to lay out some of what led to Explorer and the philosoph
 
 ## Background
 
-When I first heard about the [`Nx`](https://dashbit.co/blog/nx-numerical-elixir-is-now-publicly-available) project, I was thrilled. At [Amplified](https://amplified.ai), we've been using Elixir in production since 2018. We switched over to [`LiveView`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html) in early 2020 and haven't looked back. And we do deep learning. A bunch of it. I'm endlessly grateful to all the folks who have made the Python machine learning ecosystem as robust as it is, but... it's painful. We don't have teams dedicated to different languages. With the machine learning, it's just me. I think there are objective reasons why Python is problematic for machine learning. I'm not the only one. But this isn't the post for that. At a minimum, Nx meant the prospect of deploying our machine learning models as part of our Elixir app instead of maintaining Python microservices alongside.
+When I first heard about the [`Nx`](https://dashbit.co/blog/nx-numerical-elixir-is-now-publicly-available) project, I was thrilled. At [Amplified](https://amplified.ai), we've been using Elixir in production since 2018. We switched over to [`LiveView`](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html) in early 2020 and haven't looked back. We really love working with Elixir.
+
+And we do deep learning. A bunch of it. And I'm endlessly grateful to all the folks who have made the Python machine learning ecosystem as robust as it is, but... it's painful. We don't have teams dedicated to different languages. With the machine learning, it's just me. I think there are objective reasons why Python is problematic for machine learning. I'm [not the only one](https://www.fast.ai/2019/03/06/fastai-swift/). But this isn't the post for that. At a minimum, Nx meant the prospect of deploying our machine learning models as part of our Elixir app instead of maintaining Python microservices alongside.
 
 Immediately, however, I knew there was a potential challenge to adoption and an opportunity to make something I knew that I'd really love and thought others would too. Something I've commented on wistfully a bunch of times but never had an incentive to allocate the time or energy to championing. Dataframes in Elixir.
 
-See, I cut my data science teeth in R. I love R. I love the `tidyverse`. I pray at the alter of Hadley Wickham. But I also know that R is a crazy language. Much of the effort of the `tidyverse` has been to emphasise functional paradigms in R. Because what is data science but piping data through functions? And R is great at that now. You can read this and -- even if you have no knowledge of R -- you know what's going on.
+See, I cut my data science teeth in R. I love R. I love the [`tidyverse`](https://www.tidyverse.org). I pray at the alter of [Hadley Wickham](https://hadley.nz). But I also know that [R is a crazy language](http://www.talyarkoni.org/blog/2012/06/08/r-the-master-troll-of-statistical-languages/). Much of the effort of the `tidyverse` has been to emphasise functional paradigms in R. Because what is data science but piping data through functions? And R is great at that now. You can read this and -- even if you have no knowledge of R -- you know what's going on:
 
 ```R
 df |>
@@ -27,7 +29,7 @@ df |>
             mean_sepal_length = mean(sepal_length))
 ```
 
-Compare that to `pandas`.
+Compare that to [`pandas`](https://pandas.pydata.org).
 
 ```python
 df[df.sepal_length < 5.0].filter(
@@ -35,11 +37,11 @@ df[df.sepal_length < 5.0].filter(
 ).groupby(by=["species"]).agg({"sepal_width": "max", "sepal_length": "mean"})
 ```
 
-... I think? And that's formatted with Black. Pandas is ['the most important tool in data science'](https://qz.com/1126615/the-story-of-the-most-important-tool-in-data-science/) but it's also one of the most loathed. Or not -- one thing I find is that people don't realise _there are alternatives_.
+... I think? And that's formatted with [`black`](https://github.com/psf/black). Pandas is ['the most important tool in data science'](https://qz.com/1126615/the-story-of-the-most-important-tool-in-data-science/) but it's also one of the most loathed. Or not -- one thing I find is that people don't realise _there are alternatives_.
 
-Look, I'm not here to throw grenades or start holy wars. Pandas is just not my cup of tea. It's not how my brain works when it comes to data science. Again, I'm not the only one. At the end of the day, we're writing code to investigate and manipulate data. There should be as little friction as possible between your brain and the computer. I think the `tidyverse` mostly gets that right. But the deep learning ecosystem in R is minimal and it's _not_ a general purpose programming language. Elixir is.
+Look, I'm not here to throw grenades or start holy wars. Pandas is just not my cup of tea. It's not how my brain works when it comes to data science. Again, I'm [not the](https://wesmckinney.com/blog/apache-arrow-pandas-internals/) [only one](https://www.reddit.com/r/datascience/comments/c3lr9n/am_i_the_only_one_who_hates_working_with_pandas/). At the end of the day, we're writing code to investigate and manipulate data. There should be as little friction as possible between your brain and the computer. I think the `tidyverse` mostly gets that right. But the deep learning ecosystem in R is minimal and it's _not_ a general purpose programming language. Elixir is.
 
-And this brings me to my point about the potential blocker to adoption. I [started making noise early] about the need to be able to do the data _manipulation_ tasks leading into and following on from the actual machine learning. They say data science is >90% data 'munging' and time and time again I've found this to be true in my work.
+And this brings me to my point about the potential blocker to adoption. I [started making noise early](https://groups.google.com/g/elixir-nx/c/axSar20AyEI) about the need to be able to do the data _manipulation_ tasks leading into and following on from the actual machine learning. They say data science is >90% data 'munging' and time and time again I've found this to be true in my work.
 
 I was thinking of Nx like high speed rail: intercity trains are fantastic, but how do you get to the station and what happens once you arrive? Successful machine learning tooling must provide great "door to door" service. High speed rail without easy travel from home to station and from station to destination won't succeed. So before you start throwing data into a neural net, you need to understand your data, and you need to get it in the right format, which might be distant from how it's provided to you. You may even need to normalise, combine, or engineer variables.
 
@@ -51,7 +53,7 @@ It just so happened that someone else had this idea too. I found bindings to `po
 
 I fell down, a lot.
 
-I learned that Rust/Elixir interop isn't always the rosy picture that folks make it out to be. They're rightly very enthusiastic: Rust is an excellent language, `rustler` is a phenomenal project, and writing NIFs without worrying about bringing down the BEAM is an excellent premise. But there are sharp corners and _very_ little documentation. For a Rust novice, I cut myself on those sharp corners a whole bunch. And I'm still rectifying a lot of things in the Rust codebase.
+I learned that Rust/Elixir interop isn't always the rosy picture that folks make it out to be. They're rightly very enthusiastic: Rust is an excellent language, `rustler` is a phenomenal project, and writing NIFs without worrying about bringing down the BEAM is an excellent premise. But there are sharp corners and _very_ little documentation. For a Rust novice, I cut myself on those sharp corners a whole bunch. And I'm still rectifying a lot of things in the Rust side of the Explorer codebase.
 
 There are some things that I just didn't even realise were possible. As an example, we needed to deserialise dates. I wrote a `NifMap` with a `__struct__` field with a value of `Elixir.Date`. `rust-analyzer` complained, but I kept on. Turns out, [you can just use a `NifStruct` for the core Elixir Date struct](https://github.com/elixir-nx/explorer/pull/143).
 
@@ -115,7 +117,7 @@ The other major challenge is the inability to execute arbitrary Elixir functions
 
 ## Next steps
 
-Okay, so you can use Explorer in your workflows _today_. It works and it's _fast_. It's not as mature as `dplyr` or `pandas`, but if you're already working in Elixir you should be able to get work done with `Explorer`. And Elixir is rapidly developing a really phenomenal ecosystem of ML tooling. [Livebook](https://livebook.dev), for example, is the absolute bees knees. I gave a talk at Elixir Melbourne a few weeks back and folks's faces when I clicked the `Run in Livebook` badge and could run documentation locally were priceless.
+Okay, so you can use Explorer in your workflows _today_. It works and it's _fast_. It's not as mature as `dplyr` or `pandas`, but if you're already working in Elixir you should be able to get work done with `Explorer`. And Elixir is rapidly developing a really phenomenal ecosystem of ML tooling. [Livebook](https://livebook.dev), for example, is the absolute bees knees. I gave a talk at Elixir Melbourne a few weeks back and folks's faces when I clicked the `Run in Livebook` badge in `ExDoc` and could run documentation locally were priceless.
 
 The immediate next step is to get the lazy Polars backend going. Then I think SQL. Then Ballista. In the meantime, we're [improving](https://github.com/elixir-nx/explorer/issues/169) [the API](https://github.com/elixir-nx/explorer/issues/167), [improving performance through better interop](https://github.com/elixir-nx/explorer/pull/138), and [writing more documentation](https://github.com/elixir-nx/explorer/pull/170).
 
