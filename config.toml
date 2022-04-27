@@ -7,6 +7,10 @@ minify_html = true
 title = "Christopher Grainger's Blog"
 description = "Technical blogging. Mostly Elixir and data science. Also Rust and Nix."
 
+taxonomies = [
+    {name = "tags"},
+]
+
 [markdown]
 highlight_code = true
 highlight_theme = "dracula"
@@ -29,6 +33,3 @@ menu_items = [
     {name = "twitter", url = "https://twitter.com/cigrainger", newtab = true},
 ]
 
-taxonomies = [
-    {name = "tags"},
-]
