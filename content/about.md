@@ -1,7 +1,8 @@
-+++
-title = "About me"
-path = "about"
-+++
+---
+title: "About"
+Toc: false
+readingTime: false
+---
 
 Hi, I'm Chris. This is my blog. I write on topics related to my work: I'm cofounder
 and CTO at [`Amplified`](https://www.amplified.ai/). In a past life, I was an innovation
