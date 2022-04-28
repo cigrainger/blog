@@ -127,4 +127,6 @@ Okay, so you can use Explorer in your workflows _today_. It works and it's _fast
 
 The immediate next step is to get the lazy Polars backend going. Then I think SQL. Then Ballista. In the meantime, we're [improving](https://github.com/elixir-nx/explorer/issues/169) [the API](https://github.com/elixir-nx/explorer/issues/167), [improving performance through better interop](https://github.com/elixir-nx/explorer/pull/138), and [writing more documentation](https://github.com/elixir-nx/explorer/pull/170).
 
+It's worth noting here that I keep saying 'we' because the community piled on and it's really a team effort now. There have been really excellent contributions and even some regular contributors. It's honestly such an amazing thing to see this thing being used and improved by folks in the real world.
+
 With the rest of the ecosystem improving by leaps and bounds, Elixir is poised to be a better and better choice for data science all the time. Many of the tools are already there. Come try it out!
