@@ -1,9 +1,35 @@
 [build]
 publish = "public"
-command = "zola build"
+command = "hugo --gc --minify"
 
-[build.environment]
-ZOLA_VERSION = "0.15.3"
+[context.production.environment]
+HUGO_VERSION = "0.96.0"
+HUGO_ENV = "production"
+HUGO_ENABLEGITINFO = "true"
+
+[context.split1]
+command = "hugo --gc --minify --enableGitInfo"
+
+[context.split1.environment]
+HUGO_VERSION = "0.96.0"
+HUGO_ENV = "production"
 
 [context.deploy-preview]
-command = "zola build --base-url $DEPLOY_PRIME_URL"
+command = "hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
+
+[context.deploy-preview.environment]
+HUGO_VERSION = "0.96.0"
+
+[context.branch-deploy]
+command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+
+[context.branch-deploy.environment]
+HUGO_VERSION = "0.96.0"
+
+[context.next.environment]
+HUGO_ENABLEGITINFO = "true"
+
+[[redirects]]
+from = "/introducing-explorer"
+to = "/posts/introducing-explorer"
+status = 200

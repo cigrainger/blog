@@ -1,9 +1,15 @@
 +++
 title = "Introducing Explorer"
-date = 2022-04-28
-
-[taxonomies]
+date = "2022-04-28T10:39:13+10:00"
+author = ""
+authorTwitter = "cigrainger" #do not include @
+cover = ""
 tags = ["elixir", "rust", "explorer"]
+keywords = ["", ""]
+description = ""
+showFullContent = false
+readingTime = true
+hideComments = false
 +++
 
 Tuesday night, I published [`v0.1.0`](https://hexdocs.pm/explorer/Explorer.html) of [`Explorer`](https://github.com/elixir-nx/explorer), a library I've been working on to bring dataframes to Elixir. It's been available through GitHub for a while, but the Hex release is more than just a milestone: by publishing the package on Hex, we've enabled [Rustler Precompiled](https://dashbit.co/blog/rustler-precompiled) to do its thing. That means that now you can use Explorer without a Rust toolchain installed and without waiting for it to compile. Before you'd wait for up to five minutes to try it out, and now it's basically instant.
@@ -20,7 +26,7 @@ Immediately, however, I knew there was a potential challenge to adoption and an 
 
 See, I cut my data science teeth in R. I love R. I love the [`tidyverse`](https://www.tidyverse.org). I pray at the alter of [Hadley Wickham](https://hadley.nz). But I also know that [R is a crazy language](http://www.talyarkoni.org/blog/2012/06/08/r-the-master-troll-of-statistical-languages/). Much of the effort of the `tidyverse` has been to emphasise functional paradigms in R. Because what is data science but piping data through functions? And R is great at that now. You can read this and -- even if you have no knowledge of R -- you know what's going on:
 
-```R
+```r
 df |>
   select(sepal_length, sepal_width, species) |>
   filter(sepal_length < 5.0) |>
