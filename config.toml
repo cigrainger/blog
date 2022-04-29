@@ -1,5 +1,5 @@
 title = "Christopher Grainger's Blog"
-baseurl = "/"
+baseurl = "https://www.cigrainger.com/"
 languageCode = "en-us"
 theme = "terminal"
 paginate = 5
