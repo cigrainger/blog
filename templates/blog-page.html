@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock %}
+{% block description %}{{ page.description | default(value=config.description) }}{% endblock %}
+
+{% block body %}
+<div class="article-page-grid">
+    <aside class="art-sidebar">
+        <a href="{{ get_url(path='/') }}" class="sidebar-back">Home</a>
+        <p class="art-meta-date">{{ page.date | date(format="%d %B %Y") }}</p>
+        {% if page.taxonomies.tags %}
+        <div class="art-meta-tags">
+            {% for tag in page.taxonomies.tags %}
+            <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}">{{ tag }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="sidebar-rule"></div>
+        <p class="art-meta-by">Christopher Grainger</p>
+    </aside>
+
+    <main class="art-content">
+        <h1 class="art-title">{{ page.title }}</h1>
+        {% if page.description %}
+        <p class="art-abstract">{{ page.description }}</p>
+        {% endif %}
+
+        <div class="art-body">
+            {{ page.content | safe }}
+        </div>
+
+        {% if page.taxonomies.tags %}
+        <div class="art-footer">
+            <div class="art-footer-tags">
+                {% for tag in page.taxonomies.tags %}
+                <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="entry-tag">{{ tag }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

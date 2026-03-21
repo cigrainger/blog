@@ -1,0 +1,16 @@
+base_url = "https://cigrainger.com"
+compile_sass = true
+build_search_index = false
+
+title = "Christopher Grainger"
+description = "On systems, language, climate, and the politics of technology."
+
+taxonomies = [
+    { name = "tags", feed = true },
+]
+
+[markdown.highlighting]
+theme = "catppuccin-mocha"
+
+[extra]
+author = "Christopher Grainger"

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="page-grid">
+    <div class="page-mass"></div>
+
+    <aside class="sidebar">
+        <h1 class="sidebar-name">Christopher<br>Grainger</h1>
+        <p class="sidebar-dek">Software engineer and sometime economist. Systems, language, machine learning. Cofounder &amp; CTO at <a href="https://amplified.ai">Amplified</a>.</p>
+        <div class="sidebar-rule"></div>
+        <div class="sidebar-section">
+            <p class="sidebar-label">Background</p>
+            <p class="sidebar-text">Innovation economics,<br>climate policy,<br>energy econometrics</p>
+        </div>
+        <div class="sidebar-section">
+            <p class="sidebar-label">Tools</p>
+            <p class="sidebar-text">Elixir &middot; Rust &middot; Nix</p>
+        </div>
+        <div class="sidebar-section">
+            <p class="sidebar-label">Elsewhere</p>
+            <div class="sidebar-links">
+                <a href="https://github.com/cigrainger" rel="me">GitHub</a>
+                <a href="https://bsky.app/profile/cigrainger.bsky.social" rel="me">Bluesky</a>
+            </div>
+        </div>
+        <div class="sidebar-section sidebar-location">
+            <p class="sidebar-text">Melbourne, AU</p>
+        </div>
+    </aside>
+
+    <main class="content">
+        <div class="content-head">
+            <span class="content-head-label">Writing</span>
+        </div>
+
+        <div class="entries">
+            {% set blog = get_section(path="blog/_index.md") %}
+            {% for post in blog.pages | slice(end=5) %}
+            <article class="entry">
+                <span class="entry-date">{{ post.date | date(format="%Y.%m.%d") }}</span>
+                <div class="entry-content">
+                    <h3 class="entry-title"><a href="{{ post.permalink }}">{{ post.title }}</a></h3>
+                    {% if post.description %}
+                    <p class="entry-abstract">{{ post.description }}</p>
+                    {% endif %}
+                    {% if post.taxonomies.tags %}
+                    <div class="entry-tags">
+                        {% for tag in post.taxonomies.tags %}
+                        <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="entry-tag">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <a href="{{ get_url(path='@/blog/_index.md') }}" class="entries-more">Complete archive</a>
+    </main>
+</div>
+{% endblock %}

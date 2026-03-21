@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Tags — {{ config.title }}{% endblock %}
+
+{% block body %}
+<div class="page-grid page-grid--no-mass">
+    <aside class="sidebar">
+        <a href="{{ get_url(path='/') }}" class="sidebar-back">Home</a>
+        <h2 class="sidebar-name-sm">Christopher<br>Grainger</h2>
+        <div class="sidebar-rule"></div>
+    </aside>
+
+    <main class="content">
+        <div class="content-head">
+            <span class="content-head-label">Tags</span>
+        </div>
+
+        <div class="tag-index">
+            {% for term in terms %}
+            <a href="{{ term.permalink }}" class="tag-index-item">
+                <span class="tag-index-name">{{ term.name }}</span>
+                <span class="tag-index-count">{{ term.pages | length }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}

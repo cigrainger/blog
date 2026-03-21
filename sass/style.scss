@@ -1,0 +1,825 @@
+// ==========================================================================
+// GRAINGER — Design System
+//
+// Sidebar identity. Content-first. Asymmetric. Warm.
+// Fraunces display, Instrument Serif body, DM Mono technical.
+// Rust mass as compositional element, not decoration.
+// ==========================================================================
+
+// --- Palette ---
+$rust:       #A0422A;
+$rust-mass:  rgba(160, 66, 42, 0.72);
+$rust-wash:  rgba(160, 66, 42, 0.05);
+$stone:      #3A5068;
+$stone-wash: rgba(58, 80, 104, 0.05);
+
+$ink:     #1C1B18;
+$dark:    #33322E;
+$mid:     #7A7972;
+$quiet:   #A5A49C;
+$rule:    #CBC9C0;
+$surface: #E6E4DD;
+$cream:   #F7F6F1;
+
+// --- Typography ---
+$display: 'Fraunces', 'Georgia', serif;
+$serif:   'Instrument Serif', 'Georgia', serif;
+$sans:    'Schibsted Grotesk', 'Helvetica Neue', sans-serif;
+$mono:    'DM Mono', 'SF Mono', monospace;
+
+// ==========================================================================
+// RESET & BASE
+// ==========================================================================
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    font-family: $serif;
+    font-size: 1.15rem;
+    line-height: 1.72;
+    color: $ink;
+    background: $cream;
+    overflow-x: hidden;
+}
+
+::selection {
+    background: $rust;
+    color: $cream;
+}
+
+a {
+    color: inherit;
+    text-decoration-color: $rust;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+
+    &:hover { color: $rust; }
+}
+
+// ==========================================================================
+// TOP BAR
+// ==========================================================================
+
+.topbar {
+    position: relative;
+    z-index: 20;
+    border-bottom: 1px solid $rule;
+}
+
+.topbar-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 14px 48px;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 28px;
+}
+
+.topbar a {
+    font-family: $mono;
+    font-size: 0.66rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: $quiet;
+    text-transform: uppercase;
+
+    &:hover { color: $rust; }
+}
+
+// ==========================================================================
+// PAGE GRID — Sidebar + content
+// ==========================================================================
+
+.page-grid {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: calc(100vh - 48px);
+}
+
+.page-grid--no-mass {
+    .page-mass { display: none; }
+}
+
+// Rust mass — pushed into top-right corner, more cropped,
+// lower opacity so it reads as atmosphere not obstacle.
+.page-mass {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: clamp(120px, 14vw, 220px);
+    height: clamp(160px, 24vh, 340px);
+    background: $rust-mass;
+    z-index: 0;
+    pointer-events: none;
+}
+
+// ==========================================================================
+// SIDEBAR
+// ==========================================================================
+
+.sidebar {
+    position: relative;
+    z-index: 10;
+    border-right: 1px solid $rule;
+    padding: 48px 36px 48px 48px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-name {
+    font-family: $display;
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-size: 1.65rem;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: $ink;
+    margin-bottom: 16px;
+}
+
+.sidebar-name-sm {
+    font-family: $display;
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-size: 1.3rem;
+    line-height: 1.15;
+    color: $ink;
+    margin-bottom: 16px;
+}
+
+.sidebar-dek {
+    font-family: $serif;
+    font-size: 0.92rem;
+    font-style: italic;
+    line-height: 1.55;
+    color: $dark;
+    margin-bottom: 28px;
+
+    a { text-decoration-color: $rust; }
+}
+
+.sidebar-rule {
+    width: 28px;
+    height: 3px;
+    background: $rust;
+    margin-bottom: 24px;
+}
+
+.sidebar-section {
+    margin-bottom: 24px;
+}
+
+.sidebar-location {
+    margin-top: auto;
+}
+
+.sidebar-label {
+    font-family: $mono;
+    font-size: 0.56rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: $rust;
+    margin-bottom: 6px;
+}
+
+.sidebar-text {
+    font-family: $mono;
+    font-size: 0.64rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: $mid;
+    letter-spacing: 0.02em;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    a {
+        font-family: $mono;
+        font-size: 0.64rem;
+        font-weight: 400;
+        text-decoration: none;
+        color: $mid;
+        letter-spacing: 0.02em;
+
+        &:hover { color: $rust; }
+    }
+}
+
+.sidebar-back {
+    font-family: $mono;
+    font-size: 0.62rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: $quiet;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 28px;
+
+    &::before { content: '←'; }
+    &:hover { color: $rust; }
+}
+
+// ==========================================================================
+// CONTENT — Writing entries
+// ==========================================================================
+
+.content {
+    position: relative;
+    z-index: 10;
+    padding: 48px 48px 120px;
+}
+
+.content-head {
+    margin-bottom: 36px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid $ink;
+}
+
+.content-head-num {
+    font-family: $display;
+    font-weight: 300;
+    font-size: 2rem;
+    line-height: 1;
+    color: $rust;
+}
+
+.content-head-label {
+    font-family: $mono;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $mid;
+    padding-bottom: 2px;
+}
+
+.entries { }
+
+.entry {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0 28px;
+    padding: 24px 0;
+    border-bottom: 1px solid $rule;
+    transition: background 0.2s;
+
+    &:hover {
+        background: $rust-wash;
+    }
+}
+
+.entry-date {
+    font-family: $mono;
+    font-size: 0.66rem;
+    font-weight: 300;
+    color: $quiet;
+    padding-top: 4px;
+    letter-spacing: 0.02em;
+}
+
+.entry-content {
+    max-width: 580px;
+}
+
+// FIX: underline always present but transparent, fades in on hover.
+// This prevents the layout shift caused by toggling text-decoration.
+.entry-title {
+    font-family: $display;
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin-bottom: 4px;
+
+    a {
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        text-decoration-thickness: 1.5px;
+        text-underline-offset: 4px;
+        transition: text-decoration-color 0.15s, color 0.15s;
+
+        &:hover {
+            text-decoration-color: $rust;
+        }
+    }
+}
+
+.entry-abstract {
+    font-family: $serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.55;
+    color: $mid;
+}
+
+.entry-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.entry-tag {
+    font-family: $mono;
+    font-size: 0.54rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $mid;
+    padding: 1px 6px;
+    border: 1px solid $rule;
+    text-decoration: none;
+    transition: all 0.12s;
+
+    &:hover {
+        color: $rust;
+        border-color: $rust;
+    }
+}
+
+.entries-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 36px;
+    font-family: $mono;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $mid;
+
+    &:hover { color: $rust; }
+    &::after {
+        content: '→';
+        transition: transform 0.15s;
+    }
+    &:hover::after { transform: translateX(4px); }
+}
+
+// ==========================================================================
+// TAG INDEX
+// ==========================================================================
+
+.tag-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-index-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid $rule;
+    transition: all 0.12s;
+
+    &:hover {
+        border-color: $rust;
+        background: $rust-wash;
+    }
+}
+
+.tag-index-name {
+    font-family: $mono;
+    font-size: 0.64rem;
+    font-weight: 500;
+    color: $ink;
+    transition: color 0.12s;
+
+    .tag-index-item:hover & { color: $rust; }
+}
+
+.tag-index-count {
+    font-family: $mono;
+    font-size: 0.56rem;
+    font-weight: 300;
+    color: $quiet;
+}
+
+// ==========================================================================
+// ARTICLE PAGE GRID
+// ==========================================================================
+
+.article-page-grid {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: calc(100vh - 48px);
+}
+
+.art-sidebar {
+    position: relative;
+    z-index: 10;
+    border-right: 1px solid $rule;
+    padding: 48px 36px 48px 48px;
+}
+
+.art-meta-date {
+    font-family: $mono;
+    font-size: 0.64rem;
+    font-weight: 300;
+    color: $quiet;
+    margin-bottom: 18px;
+}
+
+.art-meta-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 20px;
+
+    a {
+        font-family: $mono;
+        font-size: 0.56rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: $rust;
+
+        &:hover { opacity: 0.6; }
+    }
+}
+
+.art-meta-by {
+    font-family: $mono;
+    font-size: 0.58rem;
+    font-weight: 300;
+    color: $quiet;
+    letter-spacing: 0.04em;
+}
+
+.art-content {
+    position: relative;
+    z-index: 10;
+    padding: 48px 48px 120px;
+}
+
+.art-title {
+    font-family: $display;
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: $ink;
+    margin-bottom: 16px;
+    max-width: 22ch;
+}
+
+.art-abstract {
+    font-family: $serif;
+    font-size: 1.08rem;
+    font-style: italic;
+    line-height: 1.6;
+    color: $dark;
+    max-width: 38ch;
+    padding-left: 16px;
+    border-left: 3px solid $rust;
+    margin-bottom: 48px;
+}
+
+// ==========================================================================
+// ARTICLE BODY
+// ==========================================================================
+
+.art-body {
+    max-width: 620px;
+
+    p {
+        margin-bottom: 1.5rem;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+    }
+
+    h2 {
+        font-family: $sans;
+        font-weight: 800;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: $ink;
+        margin: 3.5rem 0 1.5rem;
+        padding: 10px 0;
+        border-top: 2px solid $ink;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 28px;
+            height: 4px;
+            background: $rust;
+        }
+    }
+
+    h3 {
+        font-family: $serif;
+        font-size: 1.3rem;
+        font-style: italic;
+        color: $ink;
+        margin: 2.5rem 0 1rem;
+    }
+
+    h4 {
+        font-family: $sans;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: $dark;
+        margin: 2rem 0 0.75rem;
+    }
+
+    strong { font-weight: 600; }
+    em { font-style: italic; }
+
+    blockquote {
+        border-left: 3px solid $stone;
+        background: $stone-wash;
+        padding: 18px 24px;
+        margin: 2rem 0;
+
+        p {
+            font-style: italic;
+            color: $dark;
+            margin-bottom: 0;
+        }
+    }
+
+    hr {
+        border: none;
+        margin: 3rem 0;
+
+        &::before {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: $rust;
+        }
+
+        &::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: $rule;
+            margin-top: -2px;
+            margin-left: 40px;
+        }
+    }
+
+    code {
+        font-family: $mono;
+        font-size: 0.84em;
+        background: $surface;
+        padding: 0.1em 0.35em;
+    }
+
+    pre {
+        margin: 2rem 0;
+        padding: 20px 24px 20px 28px;
+        background: $ink;
+        color: #D0CFC8;
+        overflow-x: auto;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: $rust;
+        }
+
+        code {
+            background: none;
+            padding: 0;
+            font-size: 0.76rem;
+            line-height: 1.7;
+            color: inherit;
+        }
+    }
+
+    ul, ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.25rem;
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+
+        &::marker { color: $rust; }
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        margin: 2rem 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2rem 0;
+        font-size: 0.9rem;
+
+        th {
+            font-family: $sans;
+            font-weight: 600;
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 2px solid $ink;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid $rule;
+        }
+    }
+
+    a:hover { color: $rust; }
+}
+
+// Video embed
+.video-embed {
+    margin: 2rem 0;
+
+    iframe { display: block; }
+}
+
+// ==========================================================================
+// ARTICLE FOOTER
+// ==========================================================================
+
+.art-footer {
+    max-width: 620px;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid $rule;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 28px;
+        height: 3px;
+        background: $rust;
+    }
+}
+
+.art-footer-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+// ==========================================================================
+// SITE FOOTER
+// ==========================================================================
+
+.site-footer {
+    position: relative;
+    z-index: 10;
+    border-top: 2px solid $ink;
+}
+
+.footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 14px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.footer-l, .footer-r {
+    font-family: $mono;
+    font-size: 0.58rem;
+    font-weight: 300;
+    color: $quiet;
+    letter-spacing: 0.04em;
+}
+
+.footer-r { color: $rule; }
+
+// ==========================================================================
+// RESPONSIVE
+// ==========================================================================
+
+@media (max-width: 900px) {
+    .page-grid,
+    .article-page-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar,
+    .art-sidebar {
+        border-right: none;
+        border-bottom: 1px solid $rule;
+        padding: 28px 24px;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 24px;
+
+        .sidebar-name,
+        .sidebar-dek,
+        .sidebar-rule {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .sidebar-location { margin-top: 0; }
+
+    .content,
+    .art-content {
+        padding: 32px 24px 80px;
+    }
+
+    .page-mass {
+        width: clamp(80px, 12vw, 150px);
+        height: clamp(100px, 16vh, 200px);
+    }
+
+    .entry {
+        grid-template-columns: 1fr;
+        gap: 2px 0;
+    }
+
+    .entry-date { padding-top: 0; }
+}
+
+@media (max-width: 600px) {
+    .topbar-inner { padding: 12px 20px; }
+
+    .sidebar,
+    .art-sidebar {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+    }
+
+    .content,
+    .art-content {
+        padding: 24px 20px 64px;
+    }
+
+    .footer-inner { padding: 12px 20px; }
+}
+
+// ==========================================================================
+// SYNTAX HIGHLIGHTING
+// ==========================================================================
+
+.z-comment    { color: #6A6A65; font-style: italic; }
+.z-keyword    { color: #A0422A; }
+.z-string     { color: #2A8C6E; }
+.z-number     { color: #B07D2E; }
+.z-function   { color: #4A7FA5; }
+.z-type       { color: #3A5068; }
+.z-variable   { color: #D0CFC8; }
+.z-operator   { color: #9A9A94; }
+.z-punctuation { color: #7A7A74; }
+.z-attribute  { color: #B07D2E; }
+.z-constant   { color: #A0422A; }
+.z-tag        { color: #4A7FA5; }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ config.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500&family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="{{ get_url(path='@/blog/_index.md') }}">writing</a>
+            <a href="{{ get_url(path='/about') }}">about</a>
+            <a href="https://github.com/cigrainger" rel="me">github</a>
+        </div>
+    </nav>
+
+    {% block body %}{% endblock %}
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-l">&copy; {{ now() | date(format="%Y") }} Christopher Grainger &middot; Melbourne</span>
+            <span class="footer-r">Fraunces &middot; Instrument Serif &middot; DM Mono &middot; Zola</span>
+        </div>
+    </footer>
+</body>
+</html>

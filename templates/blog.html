@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Writing — {{ config.title }}{% endblock %}
+
+{% block body %}
+<div class="page-grid page-grid--no-mass">
+    <aside class="sidebar">
+        <a href="{{ get_url(path='/') }}" class="sidebar-back">Home</a>
+        <h2 class="sidebar-name-sm">Christopher<br>Grainger</h2>
+        <div class="sidebar-rule"></div>
+        <div class="sidebar-section">
+            <p class="sidebar-label">Archive</p>
+            <p class="sidebar-text">{{ section.pages | length }} entries</p>
+        </div>
+    </aside>
+
+    <main class="content">
+        <div class="content-head">
+            <span class="content-head-label">Writing</span>
+        </div>
+
+        <div class="entries">
+            {% for post in section.pages %}
+            <article class="entry">
+                <span class="entry-date">{{ post.date | date(format="%Y.%m.%d") }}</span>
+                <div class="entry-content">
+                    <h3 class="entry-title"><a href="{{ post.permalink }}">{{ post.title }}</a></h3>
+                    {% if post.description %}
+                    <p class="entry-abstract">{{ post.description }}</p>
+                    {% endif %}
+                    {% if post.taxonomies.tags %}
+                    <div class="entry-tags">
+                        {% for tag in post.taxonomies.tags %}
+                        <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="entry-tag">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock %}
+
+{% block body %}
+<div class="article-page-grid">
+    <aside class="art-sidebar">
+        <a href="{{ get_url(path='/') }}" class="sidebar-back">Home</a>
+        <div class="sidebar-rule"></div>
+    </aside>
+
+    <main class="art-content">
+        <h1 class="art-title">{{ page.title }}</h1>
+        <div class="art-body">
+            {{ page.content | safe }}
+        </div>
+    </main>
+</div>
+{% endblock %}
