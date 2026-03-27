@@ -200,72 +200,65 @@ This is where things get interesting and honest.
 
 <figure>
 <div id="chart-pubmed" class="vega-chart"></div>
-<figcaption>PubMed per-query workload (195 MB, median of 5 runs). Lower is better. simdxml wins on descendant queries (Q1, Q3) and ties or loses on aggregation (Q4) and text predicates (Q5, Q6).</figcaption>
+<figcaption>PubMed per-query workload (195 MB, median of 5 runs). <span style="color:#A0422A">&#9679;</span> simdxml &nbsp; <span style="color:#3A5068">&#9679;</span> pugixml. Lower is better. Lines connect the two; left wins.</figcaption>
 </figure>
 
 <script>
-vegaEmbed('#chart-pubmed', {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": "container",
-  "height": 280,
-  "background": "transparent",
-  "config": {
+(function() {
+  var data = [
+    {"query": "//MeshHeading", "order": 1, "simdxml": 130, "pugixml": 174},
+    {"query": "//Article/ArticleTitle", "order": 2, "simdxml": 150, "pugixml": 148},
+    {"query": "//...[@MajorTopicYN='Y']", "order": 3, "simdxml": 132, "pugixml": 159},
+    {"query": "count(//PubmedArticle)", "order": 4, "simdxml": 133, "pugixml": 117},
+    {"query": ".../Author (5-level)", "order": 5, "simdxml": 186, "pugixml": 175},
+    {"query": "contains(.,'cancer')", "order": 6, "simdxml": 162, "pugixml": 148}
+  ];
+  var cfg = {
     "font": "Schibsted Grotesk, Helvetica Neue, sans-serif",
     "view": {"stroke": null},
     "axis": {
-      "labelFont": "DM Mono, SF Mono, monospace",
-      "labelFontSize": 10,
-      "labelColor": "#7A7972",
-      "titleFont": "Schibsted Grotesk, Helvetica Neue, sans-serif",
-      "titleFontSize": 11,
-      "titleColor": "#33322E",
-      "gridColor": "#E6E4DD",
-      "domainColor": "#CBC9C0",
-      "tickColor": "#CBC9C0"
-    },
-    "legend": {
-      "labelFont": "DM Mono, SF Mono, monospace",
-      "labelFontSize": 10,
-      "labelColor": "#7A7972",
-      "titleFont": "Schibsted Grotesk",
-      "titleFontSize": 11,
-      "symbolSize": 80
+      "labelFont": "DM Mono, SF Mono, monospace", "labelFontSize": 10, "labelColor": "#7A7972",
+      "titleFont": "Schibsted Grotesk, Helvetica Neue, sans-serif", "titleFontSize": 11, "titleColor": "#33322E",
+      "gridColor": "#E6E4DD", "domainColor": "#CBC9C0", "tickColor": "#CBC9C0"
     }
-  },
-  "data": {
-    "values": [
-      {"query": "//MeshHeading", "tool": "simdxml", "time": 130, "order": 1},
-      {"query": "//MeshHeading", "tool": "pugixml", "time": 174, "order": 1},
-      {"query": "//Article/ArticleTitle", "tool": "simdxml", "time": 150, "order": 2},
-      {"query": "//Article/ArticleTitle", "tool": "pugixml", "time": 148, "order": 2},
-      {"query": "//...[@MajorTopicYN='Y']", "tool": "simdxml", "time": 132, "order": 3},
-      {"query": "//...[@MajorTopicYN='Y']", "tool": "pugixml", "time": 159, "order": 3},
-      {"query": "count(//PubmedArticle)", "tool": "simdxml", "time": 133, "order": 4},
-      {"query": "count(//PubmedArticle)", "tool": "pugixml", "time": 117, "order": 4},
-      {"query": ".../Author (5-level)", "tool": "simdxml", "time": 186, "order": 5},
-      {"query": ".../Author (5-level)", "tool": "pugixml", "time": 175, "order": 5},
-      {"query": "contains(.,'cancer')", "tool": "simdxml", "time": 162, "order": 6},
-      {"query": "contains(.,'cancer')", "tool": "pugixml", "time": 148, "order": 6}
-    ]
-  },
-  "mark": {"type": "bar", "cornerRadiusEnd": 2},
-  "encoding": {
-    "y": {"field": "query", "type": "nominal", "sort": {"field": "order"}, "title": null,
-           "axis": {"labelLimit": 200}},
-    "x": {"field": "time", "type": "quantitative", "title": "Time (ms)",
-           "scale": {"domain": [0, 200]}},
-    "color": {
-      "field": "tool", "type": "nominal", "title": null,
-      "scale": {"domain": ["simdxml", "pugixml"], "range": ["#A0422A", "#3A5068"]}
+  };
+  vegaEmbed('#chart-pubmed', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 260, "background": "transparent",
+    "config": cfg,
+    "data": {"values": data},
+    "encoding": {
+      "y": {"field": "query", "type": "nominal", "sort": {"field": "order"}, "title": null,
+             "axis": {"labelLimit": 220}}
     },
-    "yOffset": {"field": "tool"},
-    "tooltip": [
-      {"field": "query", "title": "Query"},
-      {"field": "tool", "title": "Parser"},
-      {"field": "time", "title": "Time (ms)"}
+    "layer": [
+      {
+        "mark": {"type": "rule", "color": "#E6E4DD", "strokeWidth": 1.5},
+        "encoding": {
+          "x": {"field": "simdxml", "type": "quantitative",
+                 "scale": {"domain": [100, 200]}, "title": "Time (ms)"},
+          "x2": {"field": "pugixml"}
+        }
+      },
+      {
+        "mark": {"type": "point", "filled": true, "size": 90},
+        "encoding": {
+          "x": {"field": "simdxml", "type": "quantitative"},
+          "color": {"value": "#A0422A"},
+          "tooltip": [{"field": "query"}, {"field": "simdxml", "title": "simdxml (ms)"}]
+        }
+      },
+      {
+        "mark": {"type": "point", "filled": true, "size": 90},
+        "encoding": {
+          "x": {"field": "pugixml", "type": "quantitative"},
+          "color": {"value": "#3A5068"},
+          "tooltip": [{"field": "query"}, {"field": "pugixml", "title": "pugixml (ms)"}]
+        }
+      }
     ]
-  }
-}, {actions: false, renderer: "svg"});
+  }, {actions: false, renderer: "svg"});
+})();
 </script>
 
 simdxml wins on high-selectivity descendant queries (Q1: `//MeshHeading`, 1.34x) and attribute predicates (Q3: `//DescriptorName[@MajorTopicYN='Y']`, 1.20x), where the posting list and fused predicate evaluation beat DOM traversal.
