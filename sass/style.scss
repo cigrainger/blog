@@ -675,6 +675,36 @@ a {
     }
 
     a:hover { color: $rust; }
+
+    // Charts
+    figure {
+        margin: 2.5rem 0;
+    }
+
+    figcaption {
+        font-family: $mono;
+        font-size: 0.64rem;
+        font-weight: 400;
+        color: $mid;
+        letter-spacing: 0.02em;
+        margin-top: 10px;
+        line-height: 1.6;
+    }
+
+    .vega-chart {
+        width: 100%;
+        min-height: 100px;
+    }
+
+    // Math
+    .katex-display {
+        margin: 1.5rem 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 4px 0;
+    }
+
+    .katex { font-size: 1.05em; }
 }
 
 // Video embed

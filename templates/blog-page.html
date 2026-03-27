@@ -3,6 +3,33 @@
 {% block title %}{{ page.title }} — {{ config.title }}{% endblock %}
 {% block description %}{{ page.description | default(value=config.description) }}{% endblock %}
 
+{% block extra_head %}
+{% if page.extra.math %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" crossorigin="anonymous">
+{% endif %}
+{% if page.extra.charts %}
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+{% endif %}
+{% endblock %}
+
+{% block extra_body %}
+{% if page.extra.math %}
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+<script>
+renderMathInElement(document.body, {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\(", right: "\\)", display: false}
+    ],
+    throwOnError: false
+});
+</script>
+{% endif %}
+{% endblock %}
+
 {% block body %}
 <div class="article-page-grid">
     <aside class="art-sidebar">
