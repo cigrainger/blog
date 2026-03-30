@@ -513,6 +513,7 @@ a {
 
 .art-body {
     max-width: 620px;
+    overflow-x: hidden;
 
     p {
         margin-bottom: 1.5rem;
@@ -605,6 +606,7 @@ a {
         font-size: 0.84em;
         background: $surface;
         padding: 0.1em 0.35em;
+        word-break: break-word;
     }
 
     pre {
@@ -656,6 +658,8 @@ a {
         border-collapse: collapse;
         margin: 2rem 0;
         font-size: 0.9rem;
+        display: block;
+        overflow-x: auto;
 
         th {
             font-family: $sans;
@@ -694,6 +698,7 @@ a {
     .vega-chart {
         width: 100%;
         min-height: 100px;
+        overflow-x: auto;
     }
 
     // Math
