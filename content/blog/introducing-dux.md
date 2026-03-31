@@ -11,7 +11,7 @@ charts = false
 
 Four years ago I [introduced Explorer](/blog/introducing-explorer/), a dataframe library for Elixir built on Polars. I wanted the elegance of dplyr, the speed of a proper columnar engine, and the joy of working in Elixir. Explorer delivered on that. It's been adopted widely in the community, it's integrated with Livebook, Nx, and Ecto, and I'm still proud of what we built.
 
-But I've been working on something new. [Dux](https://github.com/cigrainger/dux) is a DuckDB-native dataframe library for Elixir. It borrows Explorer's verb design from dplyr, but the architecture is fundamentally different. It's faster on single-node operations, it distributes natively across BEAM nodes, it has features Explorer never had (graph algorithms, ASOF joins, cross-source queries), and the whole thing compiles to SQL with no NIF layer. Let me explain why.
+But I've been working on something new. [Dux](https://dux.now) is a DuckDB-native dataframe library for Elixir. (Dux as in ducks, as in multiple ducks. Plus an 'x' because, you know, it's Elixir.) It borrows Explorer's verb design from dplyr, but the architecture is fundamentally different. It's faster on single-node operations, it distributes natively across BEAM nodes, it has features Explorer never had (graph algorithms, ASOF joins, cross-source queries), and the whole thing compiles to SQL with no NIF layer. Let me explain why.
 
 <!-- more -->
 
@@ -21,13 +21,17 @@ Explorer is great. I mean that sincerely. Philip, José, Billy, and the communit
 
 But we ran into some things that were hard to fix within Explorer's architecture.
 
-The first is that Polars is a fast-moving target. Explorer wraps Polars via Rust NIFs, which means every Polars release can break the bindings. The API surface is large, the internals change frequently, and maintaining compatibility is a constant effort. We have enormous respect for the Polars team, but building a library _on top of_ another library that's evolving rapidly is tough. You're always catching up. And the NIF layer itself is a source of friction: Rust compilation, precompiled binary distribution, debugging across the FFI boundary. It's a lot of machinery.
+The first is that Polars maintenance became a true albatross. Explorer wraps Polars via Rust NIFs, which means every Polars release can break the bindings. Polars is an amazing project, but the development process is fast and a lot of it is focused on the Python library. We found ourselves in a constant catch-up cycle, eventually having to give up features because we couldn't keep pace with upstream changes. And the NIF layer itself is a source of friction: Rust compilation, precompiled binary distribution, debugging across the FFI boundary. It's a lot of machinery.
 
 Dux sidesteps all of this. It talks to DuckDB via [ADBC](https://github.com/livebook-dev/adbc) (Arrow Database Connectivity), a pure Elixir driver with precompiled binaries that just downloads and works. Operations accumulate as an AST and compile to SQL, so the entire interaction with DuckDB is through a standard database protocol. No NIF, no Rust toolchain, no FFI. The development complexity difference is significant. And because DuckDB has a proper extension system, you can [build extensions](/blog/duckdb-hnsw-acorn/) that add capabilities to every Dux user without touching the Dux codebase itself.
 
+We also always knew the right direction was lazy-by-default: accumulate operations and only execute when you need results. But this was very difficult with Polars's Series API and the eager/lazy split. You end up fighting the abstraction.
+
 The second is distribution. We tried to build `Explorer.Remote` to run Explorer on remote BEAM nodes. It petered out. The fundamental issue is that Polars operations are Rust function calls, and you can't serialise a Rust function pointer and ship it to another node. You'd need to rebuild the entire operation on the receiving side, which means duplicating the expression compiler for the remote path. It's a lot of work for something that should be natural on the BEAM.
 
-The third is that DuckDB has quietly become extraordinary. It reads Parquet, CSV, NDJSON, and Excel natively. It pushes filters into S3 reads. It queries Postgres and SQLite via ATTACH with predicate pushdown. It has window functions, recursive CTEs, 500+ built-in functions, Iceberg and Delta support, and it runs everywhere. When DuckDB is your engine, a lot of features you'd otherwise have to build are just... there.
+The third is that DuckDB happened. A few weeks ago, I [built a DuckDB backend for Explorer](https://github.com/cigrainger/explorer_duckdb_backend). And in doing so I saw that DuckDB would let us realise the lazy-by-default and distributed vision that we'd always wanted but couldn't make work with Polars. So I went for it.
+
+DuckDB has quietly become extraordinary. It reads Parquet, CSV, NDJSON, and Excel natively. It pushes filters into S3 reads. It queries Postgres and SQLite via ATTACH with predicate pushdown. It has window functions, recursive CTEs, 500+ built-in functions, Iceberg and Delta support, and it runs everywhere. When DuckDB is your engine, a lot of features you'd otherwise have to build are just... there.
 
 ## What Dux is
 
@@ -210,4 +214,4 @@ There's a [getting started guide](https://hexdocs.pm/dux/getting-started.html) a
 
 It's still early. The API will likely change. But the core is solid and I've been using it in production at [Amplified](https://amplified.ai) for our heavier data processing workloads. Feedback and contributions are very welcome.
 
-The source is on [GitHub](https://github.com/cigrainger/dux).
+The source is on [GitHub](https://github.com/elixir-dux/dux), and there's a website at [dux.now](https://dux.now).
