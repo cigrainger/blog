@@ -9,6 +9,8 @@ math = false
 charts = false
 +++
 
+> **Dux**: DuckDB-native dataframes for Elixir with distributed execution on the BEAM. [GitHub](https://github.com/elixir-dux/dux) | [Website](https://dux.now) | `{:dux, "~> 0.3.0"}`
+
 Four years ago I [introduced Explorer](/blog/introducing-explorer/), a dataframe library for Elixir built on Polars. I wanted the elegance of dplyr, the speed of a proper columnar engine, and the joy of working in Elixir. Explorer delivered on that. It's been adopted widely in the community, it's integrated with Livebook, Nx, and Ecto, and I'm still proud of what we built.
 
 But I've been working on something new. [Dux](https://dux.now) is a DuckDB-native dataframe library for Elixir ([GitHub](https://github.com/elixir-dux/dux), [website](https://dux.now)). Dux as in ducks, as in multiple ducks. Plus an 'x' because, you know, it's Elixir. It borrows Explorer's verb design from dplyr, but the architecture is fundamentally different. It's faster on single-node operations, it distributes natively across BEAM nodes, it has features Explorer never had (graph algorithms, ASOF joins, cross-source queries), and the whole thing compiles to SQL with no NIF layer. Let me explain why.
